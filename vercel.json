@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/",
+        "dest": "/"
+      },
+      {
+        "src": "/graph",
+        "dest": "/"
+      },
+      {
+        "src": "/combinations",
+        "dest": "/"
+      }
+    ]
+  }
+  
