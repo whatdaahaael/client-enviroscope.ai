@@ -7,6 +7,7 @@ export default function Home() {
   const [predictedProbability, setPredictedProbability] = useState(0);
   const [previousProbability, setPreviousProbability] = useState(50); // Mock value for yesterday's probability
   const [accuracy, setAccuracy] = useState(95); // Mock accuracy value
+  const [showModal, setShowModal] = useState(true); // Modal visibility
 
   // Fetch optimized coefficients from the backend
   async function getOptimizedTheta() {
@@ -58,6 +59,85 @@ export default function Home() {
       <style>
         {`
           body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+          .container {
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+          .title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ff88;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+            animation: glow 1.5s ease-in-out infinite alternate;
+          }
+          @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(0, 255, 136, 0.8), 0 0 20px rgba(0, 255, 136, 0.6); }
+            100% { text-shadow: 0 0 30px rgba(0, 255, 136, 1), 0 0 50px rgba(0, 255, 136, 0.8); }
+          }
+          .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+          .modal {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.5);
+          }
+          .modal-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+          }
+          .modal-content {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+          }
+          .modal-link {
+            color: #3498db;
+            text-decoration: underline;
+            font-weight: bold;
+          }
+          .close-button {
+            background-color: #00ff88;
+            color: #1e1e1e;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+          }
+          .close-button:hover {
+            background-color: #00cc77;
+          }
+                   body {
             font-family: 'Roboto', sans-serif;
             background-color: #1e1e1e;
             color: white;
@@ -263,13 +343,25 @@ export default function Home() {
   font-size: 1.5rem;
   margin-right: 5px;
 }
-
         `}
       </style>
 
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 className="modal-title">Please Note</h2>
+            <p className="modal-content">
+              This application predicts live probabilities of events such as floods using a combinatorial gradient descent algorithm. It may take up to a minute for results to update because it is hosted on a free deployment service. This is part of ongoing research—read the related paper <a href="https://zenodo.org/records/14063142" target="_blank" className="modal-link">here</a>.
+            </p>
+            <button className="close-button" onClick={() => setShowModal(false)}>
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         <h1 className="title">LIVE FEED</h1>
-
         <div className="features">
           <div className="feature-box">
             <p className="feature-value">{randomFeatures.heavy_rains}</p>
@@ -280,41 +372,31 @@ export default function Home() {
             <p className="feature-label">Storms</p>
           </div>
         </div>
-
         <div className="probability-container">
-  <div className="probability-content">
-    <div>
-      <p className="probability-label">Predicted Probability</p>
-      <p className="probability-value">{Math.min(Math.max(predictedProbability, 0), 100).toFixed(2)}%</p>
-    </div>
-    <div className="comparison-container">
-      {predictedProbability < previousProbability ? (
-        <p className="better">
-          <span className="arrow">↑</span> Better by {Math.abs(predictedProbability - previousProbability).toFixed(2)}%
-        </p>
-      ) : (
-        <p className="worse">
-          <span className="arrow">↓</span> Worse by {Math.abs(predictedProbability - previousProbability).toFixed(2)}%
-        </p>
-      )}
-    </div>
-  </div>
-</div>
-
-
-        
-
+          <div className="probability-content">
+            <div>
+              <p className="probability-label">Predicted Probability</p>
+              <p className="probability-value">{Math.min(Math.max(predictedProbability, 0), 100).toFixed(2)}%</p>
+            </div>
+            <div className="comparison-container">
+              {predictedProbability < previousProbability ? (
+                <p className="better">
+                  <span className="arrow">↑</span> Better by {Math.abs(predictedProbability - previousProbability).toFixed(2)}%
+                </p>
+              ) : (
+                <p className="worse">
+                  <span className="arrow">↓</span> Worse by {Math.abs(predictedProbability - previousProbability).toFixed(2)}%
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
         <div className="accuracy-container">
           <p>Prediction Accuracy: 86.33 %</p>
         </div>
-
         <div className="buttons-container">
-          <button className="button" onClick={(e) => (window.location.href = "./combinations")}>
-            Combinations
-          </button>
-          <button className="button" onClick={(e) => (window.location.href = "./graph")}>
-            Graph
-          </button>
+          <button className="button" onClick={() => (window.location.href = "./combinations")}>Combinations</button>
+          <button className="button" onClick={() => (window.location.href = "./graph")}>Graph</button>
         </div>
       </div>
     </>
