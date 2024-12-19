@@ -398,6 +398,10 @@ export default function Home() {
           <button className="button" onClick={() => (window.location.href = "./combinations")}>Combinations</button>
           <button className="button" onClick={() => (window.location.href = "./graph")}>Graph</button>
         </div>
+
+        <div>
+          <p>Combinations shows some patterns we found, that were not part of historical data.</p>
+        </div>
       </div>
     </>
   );

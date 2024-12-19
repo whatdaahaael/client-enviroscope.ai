@@ -40,6 +40,10 @@ export default function Combination() {
           Habitable Combinations 
         </h1>
       </header>
+      
+      <div style={{margin:"10vh"}}>
+          <p>Combinations shows some patterns we found, that were not part of historical data.</p>
+        </div>
 
       {/* Fancy Table */}
       <div style={{ overflowX: 'auto' }}>
