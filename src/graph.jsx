@@ -9,7 +9,7 @@ export default function SurfacePlot() {
   useEffect(() => {
     async function getOptimizedTheta() {
       try {
-        const resp = await axios.get("http://localhost:3111/api/trainModel");
+        const resp = await axios.get("https://enviroscope-ai.onrender.com/api/trainModel");
         setD(resp.data.habitable_combinations);
       } catch (error) {
         console.log(error);
