@@ -11,7 +11,7 @@ export default function Home() {
   // Fetch optimized coefficients from the backend
   async function getOptimizedTheta() {
     try {
-      const resp = await axios.get("https://enviroscope-ai.onrender.com/api/trainModel");
+      const resp = await axios.get("https://enviroscope-ai-o5j7.onrender.com/api/trainModel");
       setOptimizedTheta(resp.data.optimized_theta);
     } catch (error) {
       console.log(error);

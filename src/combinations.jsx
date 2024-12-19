@@ -8,7 +8,7 @@ export default function Combination() {
   useEffect(() => {
     async function getOptimizedTheta() {
       try {
-        const resp = await axios.get("https://enviroscope-ai.onrender.com/api/trainModel");
+        const resp = await axios.get("https://enviroscope-ai-o5j7.onrender.com/api/trainModel");
         setD(resp.data.habitable_combinations);
       } catch (error) {
         console.log(error);
